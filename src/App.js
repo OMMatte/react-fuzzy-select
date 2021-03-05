@@ -43,8 +43,6 @@ function App() {
                      scoreFn={(option, index, score, searchTermScores) => score}
                      threshold={-2000}
                      placeHolder={'Testing placeholder'}
-
-            // threshold={scoreThreshold}
         />
     );
 }
