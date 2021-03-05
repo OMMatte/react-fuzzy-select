@@ -15,6 +15,8 @@ export default function Select({
                                    dropdownStyle,
                                    optionStyle,
                                    renderOption,
+                                   placeHolder,
+                                   inputAttributes
                                }) {
     const inputElement = React.useRef();
     const [showDropdown, setShowDropdown] = React.useState(false);
@@ -102,11 +104,11 @@ export default function Select({
             boxSizing: 'border-box',
             MozBoxSizing: 'border-box',
             WebkitBoxSizing: 'border-box',
+            outline: 'none',
             ...inputStyle
         }
     }
 
-    console.log(options);
     return (
         <div style={{position: 'relative', width: '100%'}}>
             <input
@@ -118,7 +120,10 @@ export default function Select({
                 style={getInputStyle()}
                 value={actualValue}
                 onChange={onChange}
-                type="text" placeholder="Find city..."/>
+                type="text"
+                placeholder={placeHolder}
+                {...inputAttributes}
+            />
 
             <div className={"input-dropdown-options " + (dropdownClassName || '')}
                  style={inputDropdownOptionsStyles}>

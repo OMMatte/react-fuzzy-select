@@ -10,12 +10,12 @@ const options = [
 function App() {
     const [value, setValue] = React.useState();
     const onInputChange = (value, e) => {
-        console.log('onInputChange', value, e);
+        // console.log('onInputChange', value, e);
         setValue(value);
     };
 
     const onOptionSelected = (option, index, e) => {
-        console.log('onOptionSelected', option, index, e);
+        // console.log('onOptionSelected', option, index, e);
     };
 
     return (
@@ -40,8 +40,10 @@ function App() {
                              {index} {option.label}
                          </div>
                      )}
+                     scoreFn={(option, index, score, searchTermScores) => score}
+                     threshold={-2000}
+                     placeHolder={'Testing placeholder'}
 
-            // scoreFn={searchScoreFn}
             // threshold={scoreThreshold}
         />
     );

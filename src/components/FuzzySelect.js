@@ -26,6 +26,8 @@ export default function FuzzySelect({
                                         renderOption,
                                         scoreFn,
                                         threshold,
+                                        placeHolder,
+                                        inputAttributes
                                     }) {
     const [localValue, setLocalValue] = React.useState('');
     const [optionsWithIndex, setOptionsWithIndex] = React.useState([]);
@@ -69,7 +71,24 @@ export default function FuzzySelect({
         searchResults = fuzzysort.go(
             searchString,
             optionsWithIndex
-            , {keys, allowTypo: true, limit: maxOptions}) //limit, scoreFn, threshold: threshold});
+            , {
+                keys, allowTypo: true, limit: maxOptions, threshold, scoreFn: scoreFn &&
+                    ((resultObject) => {
+                        let score = null;
+                        const searchTermScores = resultObject.map(searchTermObject => {
+                            if (searchTermObject) {
+                                if (!score || searchTermObject.score > score) {
+                                    score = searchTermObject.score;
+                                }
+                                return searchTermObject.score;
+                            } else {
+                                return null;
+                            }
+                        });
+                        console.log(resultObject.obj.option, resultObject.obj.index, score, searchTermScores);
+                        return scoreFn(resultObject.obj.option, resultObject.obj.index, score, searchTermScores);
+                    })
+            })
     }
     const selectOptions = searchResults.map(result => result.obj.option);
     return (
@@ -91,6 +110,8 @@ export default function FuzzySelect({
                 optionStyle={optionStyle}
 
                 renderOption={(option, index) => renderOption && renderOption(option, searchResults[index].obj.index)}
+                placeHolder={placeHolder}
+                inputAttributes={inputAttributes}
         />
     )
 }
